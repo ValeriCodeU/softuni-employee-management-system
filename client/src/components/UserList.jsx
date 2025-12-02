@@ -1,8 +1,8 @@
-export default function TableComponent() {
+export default function UserList() {
     return (
         <div className="table-wrapper">
 
-            <div className="loading-shade">
+            {/* <div className="loading-shade">
                 <div className="spinner"></div>
 
                 <div className="table-overlap">
@@ -65,7 +65,7 @@ export default function TableComponent() {
                     </svg>
                     <h2>Failed to fetch</h2>
                 </div>
-            </div>
+            </div> */}
 
             <table className="table">
                 <thead>
@@ -166,6 +166,7 @@ export default function TableComponent() {
                     </tr>
                 </tbody>
             </table>
+              <button className="btn-add btn">Add new user</button>
         </div>
     );
 }
