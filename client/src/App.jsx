@@ -14,6 +14,10 @@ function App() {
         setShowCreateUser(true);
     }
 
+    const closeUserModalHandler = () => {
+        setShowCreateUser(false);
+    }
+
     return (
 
 
@@ -31,7 +35,7 @@ function App() {
                     <Pagination />
                 </section>
  
-                {showCreateUser && <CreateUser />}
+                {showCreateUser && <CreateUser onClose={closeUserModalHandler} />}
 
             </main>
 
