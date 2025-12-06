@@ -1,15 +1,32 @@
-export default function UserItem() {
+export default function UserItem({
+    _id,
+    firstName,
+    lastName,
+    email,
+    phoneNumber,
+    createdAt,
+    imageUrl,
+}) {
+    const formattedDate = (() => {
+        const d = new Date(createdAt);
+        if (Number.isNaN(d.getTime())) return createdAt;
+        const weekday = d.toLocaleString('en-US', { weekday: 'short' });
+        const day = String(d.getDate()).padStart(2, '0');
+        const year = d.getFullYear();
+        return `${weekday} ${day}, ${year}`;
+    })();
+
     return (
         <tr>
             <td>
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                <img src={imageUrl}
                     alt="Peter's profile" className="image" />
             </td>
-            <td>Peter</td>
-            <td>Johnson</td>
-            <td>peter@abv.bg</td>
-            <td>0812345678</td>
-            <td>June 28, 2022</td>
+            <td>{firstName}</td>
+            <td>{lastName}</td>
+            <td>{email}</td>
+            <td>{phoneNumber}</td>
+            <td>{formattedDate}</td>
 
             <td className="actions">
                 <button className="btn edit-btn" title="Edit">
