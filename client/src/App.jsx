@@ -1,12 +1,22 @@
+import { useState } from "react"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
 import Pagination from "./components/Pagination"
 import Search from "./components/Search"
 import UserList from "./components/UserList"
+import CreateUser from "./components/CreateUser"
 
 function App() {
 
+    const [showCreateUser, setShowCreateUser] = useState(false);
+
+    const addUserClickHandler = () => {
+        setShowCreateUser(true);
+    }
+
     return (
+
+
         <div>
             <Header />
 
@@ -14,10 +24,14 @@ function App() {
                 <section className="card users-container">
                     <Search />
 
-                    < UserList />                  
+                    < UserList />
+
+                    <button onClick={addUserClickHandler} className="btn-add btn">Add new user</button>
 
                     <Pagination />
                 </section>
+ 
+                {showCreateUser && <CreateUser />}
 
             </main>
 
