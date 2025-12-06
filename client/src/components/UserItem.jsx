@@ -1,3 +1,5 @@
+import { fromIsoDate } from "../utils/dateTimeUtils";
+
 export default function UserItem({
     _id,
     firstName,
@@ -7,14 +9,14 @@ export default function UserItem({
     createdAt,
     imageUrl,
 }) {
-    const formattedDate = (() => {
-        const d = new Date(createdAt);
-        if (Number.isNaN(d.getTime())) return createdAt;
-        const weekday = d.toLocaleString('en-US', { weekday: 'short' });
-        const day = String(d.getDate()).padStart(2, '0');
-        const year = d.getFullYear();
-        return `${weekday} ${day}, ${year}`;
-    })();
+    // const formattedDate = (() => {
+    //     const d = new Date(createdAt);
+    //     if (Number.isNaN(d.getTime())) return createdAt;
+    //     const weekday = d.toLocaleString('en-US', { weekday: 'short' });
+    //     const day = String(d.getDate()).padStart(2, '0');
+    //     const year = d.getFullYear();
+    //     return `${weekday} ${day}, ${year}`;
+    // })();
 
     return (
         <tr>
@@ -26,7 +28,7 @@ export default function UserItem({
             <td>{lastName}</td>
             <td>{email}</td>
             <td>{phoneNumber}</td>
-            <td>{formattedDate}</td>
+            <td>{fromIsoDate(createdAt)}</td>
 
             <td className="actions">
                 <button className="btn edit-btn" title="Edit">
