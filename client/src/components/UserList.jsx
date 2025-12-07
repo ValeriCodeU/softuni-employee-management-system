@@ -1,22 +1,9 @@
-import { useEffect } from "react";
 import UserItem from "./UserItem";
-import { useState } from "react";
 
-export default function UserList() {
-    const [users, setUsers] = useState([])
+export default function UserList({
+    users,
+}) {
 
-    useEffect(() => {
-        fetch('http://localhost:3030/jsonstore/users')
-        .then(response => response.json())
-        .then(result => {
-            setUsers(Object.values(result));
-
-        })
-        .catch(err => {            
-           
-            alert(err.message);
-        })
-    },[]);
 
     return (
       

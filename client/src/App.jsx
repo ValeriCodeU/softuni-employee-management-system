@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
 import Pagination from "./components/Pagination"
@@ -7,6 +7,21 @@ import UserList from "./components/UserList"
 import CreateUser from "./components/CreateUser"
 
 function App() {
+
+    const [users, setUsers] = useState([])
+
+    useEffect(() => {
+        fetch('http://localhost:3030/jsonstore/users')
+            .then(response => response.json())
+            .then(result => {
+                setUsers(Object.values(result));
+
+            })
+            .catch(err => {
+
+                alert(err.message);
+            })
+    }, []);
 
     const [showCreateUser, setShowCreateUser] = useState(false);
 
@@ -18,13 +33,13 @@ function App() {
         setShowCreateUser(false);
     };
 
-    const addUserSubmitHander = (e) => {       
+    const addUserSubmitHander = (e) => {
         e.preventDefault();
 
         const formData = new FormData(e.target);
         console.log(formData);
-        
-        const {country, city, street, streetNumber, ...userData} = Object.fromEntries(formData);
+
+        const { country, city, street, streetNumber, ...userData } = Object.fromEntries(formData);
 
         userData.address = {
             country,
@@ -49,14 +64,14 @@ function App() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(userData)
         })
-        .then(response => response.json())
-        .then(result => {
-            console.log(result);          
-            closeUserModalHandler();
-        })
-        .catch(err => {
-            alert(err.message);
-        });
+            .then(response => response.json())
+            .then(result => {
+                console.log(result);
+                closeUserModalHandler();
+            })
+            .catch(err => {
+                alert(err.message);
+            });
 
     };
     return (
@@ -69,7 +84,7 @@ function App() {
                 <section className="card users-container">
                     <Search />
 
-                    < UserList />
+                    <UserList users={users} />
 
                     <button onClick={addUserClickHandler} className="btn-add btn">Add new user</button>
 
