@@ -21,12 +21,22 @@ function App() {
     const addUserSubmitHander = (e) => {       
         e.preventDefault();
 
-        const userData = new FormData(e.target);
-        console.log(userData);
+        const formData = new FormData(e.target);
+        console.log(formData);
         
-        const user = Object.fromEntries(userData);
+        const {country, city, street, streetNumber, ...userData} = Object.fromEntries(formData);
 
-        console.log(user);
+        userData.address = {
+            country,
+            city,
+            street,
+            streetNumber
+        };
+
+        userData.createdAt = new Date().toISOString();
+        userData.updatedAt = new Date().toISOString();
+
+        console.log(userData);
         // const user = {
         //     firstName: userData.get('firstName'),
         //     lastName: userData.get('lastName'),
@@ -37,7 +47,7 @@ function App() {
         fetch('http://localhost:3030/jsonstore/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(user)
+            body: JSON.stringify(userData)
         })
         .then(response => response.json())
         .then(result => {
