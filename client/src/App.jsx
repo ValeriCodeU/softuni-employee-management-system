@@ -9,6 +9,9 @@ import CreateUser from "./components/CreateUser"
 function App() {
 
     const [users, setUsers] = useState([])
+    const [showCreateUser, setShowCreateUser] = useState(false);
+    const [forceRefresh, setForceRefresh] = useState(false);
+
 
     useEffect(() => {
         fetch('http://localhost:3030/jsonstore/users')
@@ -21,9 +24,7 @@ function App() {
 
                 alert(err.message);
             })
-    }, []);
-
-    const [showCreateUser, setShowCreateUser] = useState(false);
+    }, [forceRefresh]);
 
     const addUserClickHandler = () => {
         setShowCreateUser(true);
@@ -68,6 +69,7 @@ function App() {
             .then(result => {
                 console.log(result);
                 closeUserModalHandler();
+                setForceRefresh(state => !state);
             })
             .catch(err => {
                 alert(err.message);
