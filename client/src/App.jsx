@@ -12,12 +12,43 @@ function App() {
 
     const addUserClickHandler = () => {
         setShowCreateUser(true);
-    }
+    };
 
     const closeUserModalHandler = () => {
         setShowCreateUser(false);
-    }
+    };
 
+    const addUserSubmitHander = (e) => {       
+        e.preventDefault();
+
+        const userData = new FormData(e.target);
+        console.log(userData);
+        
+        const user = Object.fromEntries(userData);
+
+        console.log(user);
+        // const user = {
+        //     firstName: userData.get('firstName'),
+        //     lastName: userData.get('lastName'),
+        //     email: userData.get('email'),
+        //     phone: userData.get('phone'),
+        // };
+
+        fetch('http://localhost:3030/jsonstore/users', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log(result);          
+            closeUserModalHandler();
+        })
+        .catch(err => {
+            alert(err.message);
+        });
+
+    };
     return (
 
 
@@ -34,9 +65,13 @@ function App() {
 
                     <Pagination />
                 </section>
- 
-                {showCreateUser && <CreateUser onClose={closeUserModalHandler} />}
 
+                {showCreateUser &&
+                    <CreateUser
+                        onClose={closeUserModalHandler}
+                        onSubmit={addUserSubmitHander}
+                    />
+                }
             </main>
 
             <Footer />
