@@ -1,13 +1,26 @@
+import { useState } from "react";
+import UserDetails from "./UserDetails";
 import UserItem from "./UserItem";
 
 export default function UserList({
     users,
 }) {
 
+    const [selectedUserId, setSelectedUserId] = useState(null);
+
+    const showUserInfoHandler = (userId) => {
+        console.log(userId);
+        setSelectedUserId(userId);
+    }
+
+    const closeUserInfoHandler = () => {
+        setSelectedUserId(null);
+    }
+
 
     return (
-      
-        <div className="table-wrapper">            
+
+        <div className="table-wrapper">
             {/* <div className="loading-shade">
                 <div className="spinner"></div>
 
@@ -130,11 +143,19 @@ export default function UserList({
                 </thead>
                 <tbody>
                     {/* Table row component */}
-                    {users.map(user=> <UserItem key={user._id} {...user} />)}
-                 
+                    {users.map(user =>
+                        <UserItem
+                            {...user}
+                            key={user._id}
+                            onShow={showUserInfoHandler}
+                        />
+                    )}
+
                 </tbody>
             </table>
-        
+
+            {selectedUserId && <UserDetails userId={selectedUserId} onClose={closeUserInfoHandler} />}
+
         </div>
     );
 }

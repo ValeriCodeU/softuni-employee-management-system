@@ -5,6 +5,7 @@ import Pagination from "./components/Pagination"
 import Search from "./components/Search"
 import UserList from "./components/UserList"
 import CreateUser from "./components/CreateUser"
+import UserDetails from "./components/UserDetails"
 
 function App() {
 
@@ -98,7 +99,9 @@ function App() {
                         onClose={closeUserModalHandler}
                         onSubmit={addUserSubmitHander}
                     />
-                }
+                }              
+
+
             </main>
 
             <Footer />
