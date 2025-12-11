@@ -154,8 +154,12 @@ export default function UserList({
                 </tbody>
             </table>
 
-            {selectedUserId && <UserDetails userId={selectedUserId} onClose={closeUserInfoHandler} />}
-
+            {selectedUserId &&
+                <UserDetails
+                    userId={selectedUserId}
+                    onClose={closeUserInfoHandler}
+                />
+            }
         </div>
     );
 }
