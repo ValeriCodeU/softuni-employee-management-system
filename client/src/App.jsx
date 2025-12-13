@@ -5,13 +5,12 @@ import Pagination from "./components/Pagination"
 import Search from "./components/Search"
 import UserList from "./components/UserList"
 import CreateUser from "./components/CreateUser"
-import UserDetails from "./components/UserDetails"
 
 function App() {
 
     const [users, setUsers] = useState([])
     const [showCreateUser, setShowCreateUser] = useState(false);
-    const [forceRefresh, setForceRefresh] = useState(false);
+    const [refresh, setRefresh] = useState(false);
 
 
     useEffect(() => {
@@ -25,7 +24,11 @@ function App() {
 
                 alert(err.message);
             })
-    }, [forceRefresh]);
+    }, [refresh]);
+
+    const forceRefresh = () => {
+        setRefresh(state => !state);
+    }
 
     const addUserClickHandler = () => {
         setShowCreateUser(true);
@@ -38,8 +41,7 @@ function App() {
     const addUserSubmitHander = (e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.target);
-        console.log(formData);
+        const formData = new FormData(e.target);       
 
         const { country, city, street, streetNumber, ...userData } = Object.fromEntries(formData);
 
@@ -52,8 +54,7 @@ function App() {
 
         userData.createdAt = new Date().toISOString();
         userData.updatedAt = new Date().toISOString();
-
-        console.log(userData);
+       
         // const user = {
         //     firstName: userData.get('firstName'),
         //     lastName: userData.get('lastName'),
@@ -67,10 +68,9 @@ function App() {
             body: JSON.stringify(userData)
         })
             .then(response => response.json())
-            .then(result => {
-                console.log(result);
+            .then(() => {             
                 closeUserModalHandler();
-                setForceRefresh(state => !state);
+                forceRefresh();
             })
             .catch(err => {
                 alert(err.message);
@@ -87,7 +87,7 @@ function App() {
                 <section className="card users-container">
                     <Search />
 
-                    <UserList users={users} />
+                    <UserList refreshUsers={forceRefresh} users={users} />
 
                     <button onClick={addUserClickHandler} className="btn-add btn">Add new user</button>
 

@@ -1,20 +1,32 @@
 import { useState } from "react";
 import UserDetails from "./UserDetails";
 import UserItem from "./UserItem";
+import UserDelete from "./UserDelete";
 
 export default function UserList({
     users,
+    refreshUsers,
 }) {
 
     const [selectedUserId, setSelectedUserId] = useState(null);
+    const [showUserDetails, setShowUserDetails] = useState(false);
+    const [showUserDelete, setShowUserDelete] = useState(false);
 
-    const showUserInfoHandler = (userId) => {
-        console.log(userId);
+    const showUserDetailsHandler = (userId) => {
+        setShowUserDetails(true);
         setSelectedUserId(userId);
     }
 
-    const closeUserInfoHandler = () => {
-        setSelectedUserId(null);
+    const deleteUserHandler = (userId) => {
+        setSelectedUserId(userId);
+        console.log(userId);
+        setShowUserDelete(true);
+    };
+
+    const closeUserModalHandler = () => {
+        setShowUserDetails(false);
+        setShowUserDelete(false);
+        selectedUserId(null);
     }
 
 
@@ -147,17 +159,26 @@ export default function UserList({
                         <UserItem
                             {...user}
                             key={user._id}
-                            onShow={showUserInfoHandler}
+                            onShow={showUserDetailsHandler}
+                            onDelete={deleteUserHandler}
                         />
                     )}
 
                 </tbody>
             </table>
 
-            {selectedUserId &&
+            {showUserDetails &&
                 <UserDetails
                     userId={selectedUserId}
-                    onClose={closeUserInfoHandler}
+                    onClose={closeUserModalHandler}
+                />
+            }
+
+            {showUserDelete &&
+                <UserDelete
+                    userId={selectedUserId}
+                    onClose={closeUserModalHandler}
+                    refreshUsers={refreshUsers}
                 />
             }
         </div>
