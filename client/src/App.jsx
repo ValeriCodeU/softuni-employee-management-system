@@ -4,13 +4,13 @@ import Header from "./components/Header"
 import Pagination from "./components/Pagination"
 import Search from "./components/Search"
 import UserList from "./components/UserList"
-import CreateUser from "./components/CreateUser"
+import UserSave from "./components/UserSave"
 
 function App() {
 
     const [users, setUsers] = useState([])
     const [showCreateUser, setShowCreateUser] = useState(false);
-    const [refresh, setRefresh] = useState(false);
+    const [refresh, setRefresh] = useState(false);    
 
 
     useEffect(() => {
@@ -31,7 +31,7 @@ function App() {
     }
 
     const addUserClickHandler = () => {
-        setShowCreateUser(true);
+        setShowCreateUser(true);        
     };
 
     const closeUserModalHandler = () => {
@@ -95,7 +95,7 @@ function App() {
                 </section>
 
                 {showCreateUser &&
-                    <CreateUser
+                    <UserSave
                         onClose={closeUserModalHandler}
                         onSubmit={addUserSubmitHander}
                     />

@@ -1,7 +1,6 @@
 export default function UserDelete({
     onClose,
     userId,
-    refreshUsers,
 }) {
 
 
@@ -12,7 +11,6 @@ export default function UserDelete({
             });
 
             onClose();
-            refreshUsers(); 
 
         } catch (error) {
             alert(error.message);

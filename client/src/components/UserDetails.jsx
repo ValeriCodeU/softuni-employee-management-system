@@ -9,7 +9,6 @@ export default function UserDetails({
     const [userDetails, setUserDetails] = useState({});
 
 
-
     useEffect(() => {
         fetch(`http://localhost:3030/jsonstore/users/${userId}`)
             .then(response => response.json())

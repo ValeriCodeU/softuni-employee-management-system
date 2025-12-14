@@ -2,15 +2,17 @@ import { useState } from "react";
 import UserDetails from "./UserDetails";
 import UserItem from "./UserItem";
 import UserDelete from "./UserDelete";
+import UserSave from "./UserSave";
 
 export default function UserList({
     users,
     refreshUsers,
 }) {
 
-    const [selectedUserId, setSelectedUserId] = useState(null);
     const [showUserDetails, setShowUserDetails] = useState(false);
+    const [showUserEdit, setShowUserEdit] = useState(false);
     const [showUserDelete, setShowUserDelete] = useState(false);
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
     const showUserDetailsHandler = (userId) => {
         setShowUserDetails(true);
@@ -23,10 +25,48 @@ export default function UserList({
         setShowUserDelete(true);
     };
 
+    const editUserHandler = (userId) => {
+        setSelectedUserId(userId);
+        console.log(userId);
+        setShowUserEdit(true);
+
+    }
+
+    const editUserSubmitHandler = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+
+        const { country, city, street, streetNumber, ...userData} = Object.fromEntries(formData);
+
+        userData.address = {
+            country,
+            city,
+            street,
+            streetNumber
+        }     
+        userData.updatedAt = new Date().toISOString();
+
+        try {
+            await fetch(`http://localhost:3030/jsonstore/users/${selectedUserId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+            closeUserModalHandler();
+        } catch (error) {
+            alert(error.message);
+        }
+    };
+
     const closeUserModalHandler = () => {
         setShowUserDetails(false);
         setShowUserDelete(false);
-        selectedUserId(null);
+        setShowUserEdit(false);
+        setSelectedUserId(null);
+        refreshUsers();
     }
 
 
@@ -161,6 +201,7 @@ export default function UserList({
                             key={user._id}
                             onShow={showUserDetailsHandler}
                             onDelete={deleteUserHandler}
+                            onEdit={editUserHandler}
                         />
                     )}
 
@@ -178,7 +219,15 @@ export default function UserList({
                 <UserDelete
                     userId={selectedUserId}
                     onClose={closeUserModalHandler}
-                    refreshUsers={refreshUsers}
+                />
+            }
+
+            {showUserEdit &&
+                <UserSave
+                    userId={selectedUserId}
+                    onClose={closeUserModalHandler}
+                    onSubmit={editUserSubmitHandler}
+                    editMode
                 />
             }
         </div>
