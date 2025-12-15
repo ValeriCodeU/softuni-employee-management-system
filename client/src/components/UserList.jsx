@@ -7,12 +7,14 @@ import UserSave from "./UserSave";
 export default function UserList({
     users,
     refreshUsers,
+    onSort,
 }) {
 
     const [showUserDetails, setShowUserDetails] = useState(false);
     const [showUserEdit, setShowUserEdit] = useState(false);
     const [showUserDelete, setShowUserDelete] = useState(false);
     const [selectedUserId, setSelectedUserId] = useState(null);
+
 
     const showUserDetailsHandler = (userId) => {
         setShowUserDetails(true);
@@ -180,7 +182,7 @@ export default function UserList({
                                 </path>
                             </svg>
                         </th>
-                        <th>
+                        <th onClick={onSort}>
                             Created
                             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-down"
                                 className="icon active-icon svg-inline--fa fa-arrow-down Table_icon__+HHgn" role="img"

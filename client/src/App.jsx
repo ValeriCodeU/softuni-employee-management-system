@@ -10,7 +10,8 @@ function App() {
 
     const [users, setUsers] = useState([])
     const [showCreateUser, setShowCreateUser] = useState(false);
-    const [refresh, setRefresh] = useState(false);    
+    const [refresh, setRefresh] = useState(false);
+    const [direction, setDirection] = useState('asc');
 
 
     useEffect(() => {
@@ -31,17 +32,33 @@ function App() {
     }
 
     const addUserClickHandler = () => {
-        setShowCreateUser(true);        
+        setShowCreateUser(true);
     };
 
     const closeUserModalHandler = () => {
         setShowCreateUser(false);
     };
 
+    const sortUsersCreatedAtHandler = () => {
+        console.log('Sorting by createdAt...');
+
+        const nextDirection = direction === 'asc' ? 'desc' : 'asc';
+        setDirection(nextDirection);
+
+        console.log('New direction:', nextDirection);
+
+        if (nextDirection === 'asc') {
+            setUsers(state => [...state].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)));
+
+        } else {
+            setUsers(state => [...state].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+        }
+    };
+
     const addUserSubmitHander = (e) => {
         e.preventDefault();
 
-        const formData = new FormData(e.target);       
+        const formData = new FormData(e.target);
 
         const { country, city, street, streetNumber, ...userData } = Object.fromEntries(formData);
 
@@ -54,7 +71,7 @@ function App() {
 
         userData.createdAt = new Date().toISOString();
         userData.updatedAt = new Date().toISOString();
-       
+
         // const user = {
         //     firstName: userData.get('firstName'),
         //     lastName: userData.get('lastName'),
@@ -68,7 +85,7 @@ function App() {
             body: JSON.stringify(userData)
         })
             .then(response => response.json())
-            .then(() => {             
+            .then(() => {
                 closeUserModalHandler();
                 forceRefresh();
             })
@@ -87,7 +104,7 @@ function App() {
                 <section className="card users-container">
                     <Search />
 
-                    <UserList refreshUsers={forceRefresh} users={users} />
+                    <UserList refreshUsers={forceRefresh} users={users} onSort={sortUsersCreatedAtHandler} />
 
                     <button onClick={addUserClickHandler} className="btn-add btn">Add new user</button>
 
@@ -99,7 +116,7 @@ function App() {
                         onClose={closeUserModalHandler}
                         onSubmit={addUserSubmitHander}
                     />
-                }              
+                }
 
 
             </main>
