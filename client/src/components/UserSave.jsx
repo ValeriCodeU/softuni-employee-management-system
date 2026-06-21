@@ -8,7 +8,6 @@ export default function UserSave({
 }) {
 
     const [user, setUser] = useState({});
-    console.log(user);
 
     useEffect(() => {
         if (editMode) {

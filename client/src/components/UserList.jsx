@@ -28,8 +28,7 @@ export default function UserList({
     };
 
     const editUserHandler = (userId) => {
-        setSelectedUserId(userId);
-        console.log(userId);
+        setSelectedUserId(userId);   
         setShowUserEdit(true);
 
     }
