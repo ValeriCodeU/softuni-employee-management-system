@@ -8,6 +8,7 @@ export default function UserSave({
 }) {
 
     const [user, setUser] = useState({});
+    console.log(user);
 
     useEffect(() => {
         if (editMode) {
@@ -84,7 +85,7 @@ export default function UserSave({
                                 <label htmlFor="country">Country</label>
                                 <div className="input-wrapper">
                                     <span><i className="fa-solid fa-map"></i></span>
-                                    <input id="country" name="country" type="text" defaultValue={user.address?.conntry} />
+                                    <input id="country" name="country" type="text" defaultValue={user.address?.country} />
                                 </div>
                             </div>
                             <div className="form-group">

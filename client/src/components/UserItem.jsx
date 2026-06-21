@@ -9,7 +9,7 @@ export default function UserItem({
     createdAt,
     imageUrl,
     onShow,
-    onDelete,
+    onDelete,    
     onEdit
 }) {
     // const formattedDate = (() => {
@@ -25,7 +25,7 @@ export default function UserItem({
         <tr>
             <td>
                 <img src={imageUrl}
-                    alt="Peter's profile" className="image" />
+                    alt={`${firstName} ${lastName}'s profile`} className="image" />
             </td>
             <td>{firstName}</td>
             <td>{lastName}</td>
